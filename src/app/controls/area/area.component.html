@@ -1,0 +1,76 @@
+<h1>Workspace</h1>
+<div style="display: flex; flex-direction: row; justify-content: stretch; height: 100%;" cdkDropListGroup>
+  <div style="width: 400px; position: relative; z-index: 1000">
+    <p-tabView [(activeIndex)]="tabindex">
+      <p-tabPanel header="Tables">
+        <div
+          *ngFor="let t of getAvailableTables()"
+          style="display: flex; flex-direction: row; justify-content: stretch"
+        >
+          <div>
+            {{ t.name }}
+          </div>
+          <span style="flex: 1 0 auto"></span>
+          <button p-button (click)="AddTable(t)">></button>
+        </div>
+      </p-tabPanel>
+      <p-tabPanel header="Fields">
+        <input type="checkbox" [(ngModel)]="ws.Distinct" /> Distinct values
+        <div class="field-list" cdkDropList [cdkDropListData]="ws.SelectedFields">
+        <div *ngFor="let f of ws.SelectedFields" cdkDrag
+            style="display: flex; flex-direction: row; justify-content: stretch; margin-top: 8px;">
+
+            <div  style="width:90px">
+              {{ f.originalname }}
+            </div>
+
+            <input
+              type="text"
+              class="p-inputtext-sm"
+              placeholder="Small"
+              pInputText
+              [(ngModel)]="f.name"
+              style="width:90px"
+            />
+
+          <p-dropdown
+            [options]="GroupTypes"
+            [(ngModel)]="f.groupType"
+            (onChange)="groupCheck()"
+
+          ></p-dropdown>
+        </div>
+      </div>
+      </p-tabPanel>
+    </p-tabView>
+  </div>
+  <div style="flex: 1 0 auto">
+  <p-tabView [(activeIndex)]="viewindex" [style]="{'width': '100%'}">
+    <p-tabPanel header="Query" >
+
+          <div cdkDropListGroup style="min-width: 400px;" >
+            <app-table
+              *ngFor="let t of getTables()"
+              [Table]="t"
+              (onScroll)="tablechanged(t)"
+              (onTableChange)="TableChanged($event)"
+              style="position: absolute;"
+            ></app-table>
+
+            <app-tjoin *ngFor="let j of ws.Joins" [join]="j"></app-tjoin>
+
+            <app-join-icons></app-join-icons>
+          </div>
+
+
+    </p-tabPanel>
+    <p-tabPanel header="SQL">
+      <textarea id="sql" style="width: 100%; height: 100%;" readonly="true" [ngModel]="ws.GetQuery()"></textarea>
+    </p-tabPanel>
+    <p-tabPanel header="Report">
+      <app-report></app-report>
+
+    </p-tabPanel>
+  </p-tabView>
+</div>
+</div>

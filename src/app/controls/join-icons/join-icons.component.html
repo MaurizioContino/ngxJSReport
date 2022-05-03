@@ -1,0 +1,43 @@
+
+
+<div *ngFor="let j of ws.Joins">
+<fa-icon *ngIf="j.joinType==0" [icon]="['far', 'circle']" style="background-color: white;"
+[ngStyle]="{'position': 'absolute', 'top': getCoordinates(j).y2 - 10 + 'px', 'left': getCoordinates(j).x2 - 20 + 'px'}" (click)="ShowPanel($event, op, j)"
+></fa-icon>
+
+
+<fa-icon *ngIf="j.joinType==1" [icon]="['fas', 'circle-arrow-right']" style="background-color: white;"
+[ngStyle]="{'position': 'absolute', 'top': getCoordinates(j).y2 - 10 + 'px', 'left': getCoordinates(j).x2 - 20 + 'px'}" (click)="ShowPanel($event, op, j)"
+></fa-icon>
+
+<fa-icon *ngIf="j.joinType==2" [icon]="['fas', 'circle-arrow-left']" style="background-color: white;"
+[ngStyle]="{'position': 'absolute', 'top': getCoordinates(j).y2 - 10 + 'px', 'left': getCoordinates(j).x2 - 20 + 'px'}" (click)="ShowPanel($event, op, j)"
+></fa-icon>
+
+<fa-icon *ngIf="j.joinType==3" [icon]="['fas', 'circle']" style="background-color: white;"
+[ngStyle]="{'position': 'absolute', 'top': getCoordinates(j).y2 - 10 + 'px', 'left': getCoordinates(j).x2 - 20 + 'px'}" (click)="ShowPanel($event, op, j)"
+></fa-icon>
+</div>
+
+<p-overlayPanel #op [style]="{'width': '300px'}">
+  <ng-template pTemplate>
+
+    <h3>Join type</h3>
+    <div class="field-radiobutton" style="margin-bottom:5px">
+      <p-radioButton name="JoinType" value="0" [(ngModel)]="currjoin!.joinType" inputId="inner" ></p-radioButton>
+      <label style="margin-left:10px" for="inner">Inner</label>
+  </div>
+  <div class="field-radiobutton" style="margin-bottom:5px">
+      <p-radioButton name="JoinType" value="1" [(ngModel)]="currjoin!.joinType" inputId="left" ></p-radioButton>
+      <label style="margin-left:10px" for="left">Left</label>
+  </div>
+  <div class="field-radiobutton" style="margin-bottom:5px">
+      <p-radioButton name="JoinType" value="2" [(ngModel)]="currjoin!.joinType" inputId="right" ></p-radioButton>
+      <label style="margin-left:10px" for="right">Right</label>
+  </div>
+  <div class="field-radiobutton" style="margin-bottom:5px">
+      <p-radioButton name="JoinType" value="3" [(ngModel)]="currjoin!.joinType" inputId="cross" ></p-radioButton>
+      <label style="margin-left:10px" for="cross">Cross</label>
+  </div>
+  </ng-template>
+</p-overlayPanel>

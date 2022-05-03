@@ -1,0 +1,11 @@
+<div class="table-box" cdkDrag >
+  <div class="table-handle" cdkDragHandle>
+    <div>{{Table.name}}</div>
+  </div>
+  <perfect-scrollbar id="{{Table.name}}" style="width: 100%;" (psScrollY)="scrolled($event)">
+    <app-field *ngFor="let f of Table.fields" [field]="f" style="width: 100%" (OnFieldChange)="EmitTableChange(f)">
+
+    </app-field>
+  </perfect-scrollbar>
+
+</div>

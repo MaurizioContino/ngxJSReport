@@ -1,0 +1,29 @@
+::ng-deep  p-chips {
+  width: calc(100% - 140px) !important;
+}
+::ng-deep  .p-chips {
+  width: 100% !important;
+}
+
+::ng-deep  .p-chips .p-chips-multiple-container {
+  width: 100% !important;
+}
+
+.labelInput {
+  background: transparent;
+  border: 0px;
+}
+
+.title {
+  font-size: 45px;
+  line-height: 45px;
+  color: gray;
+}
+.label {
+
+  font-weight: bold;
+  font-size: 14px;
+}
+.value {
+  font-size: 14px;
+}
