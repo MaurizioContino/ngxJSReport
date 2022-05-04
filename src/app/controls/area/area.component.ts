@@ -22,7 +22,12 @@ export class AreaComponent implements OnInit {
     this.ws.workspaceChanged();
   }
   GroupTypes = ['', 'Group', 'Sum', 'Count'];
-  constructor(public ws: WorkspaceService, private cdr: ChangeDetectorRef) { }
+
+  AvailableTables: TableModel[] = []
+
+  constructor(public ws: WorkspaceService, private cdr: ChangeDetectorRef) {
+
+  }
 
 
   getTables(): TableModel[] {
@@ -32,16 +37,15 @@ export class AreaComponent implements OnInit {
     });
     return ret;
   }
-  getAvailableTables(): TableModel[] {
-    var x = Object.keys(this.ws.AvailableTables).map(key => {
-      return this.ws.AvailableTables[key];
-    });
-    return x;
-  }
+
   ngOnInit(): void {
+    this.ws.AvailableTables.subscribe(data => {
+      this.AvailableTables = data;
+    });
     this.ws.onWorkspaceChange.subscribe((ws: WorkspaceService) => {
       this.cdr.detectChanges();
     });
+    this.ws.getAvailableTable();
   }
   tablechanged(t: TableModel) {
     this.ws.workspaceChanged();
@@ -52,12 +56,13 @@ export class AreaComponent implements OnInit {
     this.ws.addtable(t)
   }
   TableChanged(e: any) {
-    if (e.field.selected) {
-      if (this.ws.SelectedFields.indexOf(e.field)==-1) {
-        this.ws.SelectedFields.push(e.field);
+    var field = e.field as FieldModel;
+    if (field.Selected) {
+      if (this.ws.SelectedFields.indexOf(field)==-1) {
+        this.ws.SelectedFields.push(field);
       }
     } else {
-      var idx = this.ws.SelectedFields.indexOf(e.field);
+      var idx = this.ws.SelectedFields.indexOf(field);
       if (idx > -1) {
         this.ws.SelectedFields.splice(idx,1);
       }
@@ -71,8 +76,8 @@ export class AreaComponent implements OnInit {
   groupCheck(){
     if (this.ws.anyGroup()) {
       this.ws.SelectedFields.forEach(f => {
-        if (f.groupType == "") {
-          f.groupType = "Group";
+        if (f.GroupType == "") {
+          f.GroupType = "Group";
         }
       })
     }

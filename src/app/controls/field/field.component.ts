@@ -51,8 +51,8 @@ export class FieldComponent implements OnInit {
     this.OnFieldChange.emit(field);
   }
   GroupFieldChange(field: FieldModel) {
-    if (field.groupType != "") {
-      field.selected = true;
+    if (field.GroupType != "") {
+      field.Selected = true;
     }
     this.OnFieldChange.emit(field);
   }

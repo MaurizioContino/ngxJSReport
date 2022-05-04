@@ -1,5 +1,6 @@
+import { HttpClient } from '@angular/common/http';
 import { EventEmitter, Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { FieldModel } from '../models/FieldModel';
 import { JoinModel } from '../models/JoinModel';
 import { ReportModel } from '../models/ReportModel';
@@ -12,7 +13,7 @@ import { TableModel } from '../models/TableModel';
 export class WorkspaceService {
 
   public Joins: JoinModel[] = [];
-  public AvailableTables: any = {};
+  public AvailableTables = new BehaviorSubject<TableModel[]>([]);
   public Tables: any = {};
   public JoinsChanged = new EventEmitter<JoinModel[]>();
   public onWorkspaceChange = new Subject<any>();
@@ -20,7 +21,18 @@ export class WorkspaceService {
   public Distinct = false;
   SelectedFields: FieldModel[] = [];
 
-  constructor() { }
+  constructor(private http: HttpClient) {
+
+   }
+
+   getAvailableTable() {
+
+      this.http.get<TableModel[]>('https://localhost:7009/Database').subscribe(data => {
+        this.AvailableTables.next(data.map(x => new TableModel(x.Name, x.Fields)));
+
+      });
+
+   }
 
 
   public addtable(table: TableModel) {
@@ -60,7 +72,7 @@ export class WorkspaceService {
   public GetField(tablename: string, fieldname: string) {
     var ret = null;
     this.Tables[tablename].fields.forEach((element: FieldModel) => {
-      if (element.name == fieldname) {
+      if (element.Name == fieldname) {
         ret = element;
       }
     });
@@ -69,7 +81,7 @@ export class WorkspaceService {
 
   anyGroup(): boolean {
 
-    return this.SelectedFields.some(x => x.groupType != "");
+    return this.SelectedFields.some(x => x.GroupType != "");
 
   }
 
@@ -102,16 +114,16 @@ export class WorkspaceService {
     var where = "";
     var sort = "";
 
-    return select + " " + from + " " + groupby + " " + where + " " + sort;
+    return select + " \n" + from + " \n" + groupby + " \n" + where + " \n" + sort;
 
   }
 
   CalculateGroupBy() {
 
-    var filtered = this.SelectedFields.filter(f=> f.groupType == "Group");
+    var filtered = this.SelectedFields.filter(f=> f.GroupType == "Group");
     if (filtered.length>0) {
 
-      return  "Group by " + filtered.map(f=> f.originalname).join(', ');
+      return  "Group by \n" + filtered.map(f=> '\t' + f.OriginalName ).join('\n, ');
     }
     return "";
   }
@@ -122,8 +134,8 @@ export class WorkspaceService {
     var tmp = "SELECT ";
     if (this.SelectedFields.length>0) {
       tmp +=  this.SelectedFields.map((f: FieldModel) => {
-        return f.groupType ==  "" || f.groupType == "Group" ?  f.originalname : f.groupType + '(' + f.originalname + ')'  + " as " + f.name
-      }).join(', ')
+        return '\n\t' + (f.GroupType ==  "" || f.GroupType == "Group" ?  f.OriginalName : f.GroupType + '(' + f.OriginalName + ')'  + " as " + f.Name)
+      }).join(',')
     } else {
       tmp += "*"
     }
@@ -141,14 +153,14 @@ export class WorkspaceService {
         for (var j = 0; j < tables.length; j++) {
           if (i != j) {
             if (tmp == "")
-              tmp = tables[i].originalname + " " + tables[i].name;
-            var cjoins = this.Joins.filter(x => x.f1.parent == tables[i].name && x.f2.parent == tables[j].name);
+              tmp = '\t' + tables[i].OriginalName + " " + tables[i].Name;
+            var cjoins = this.Joins.filter(x => x.f1.Parent == tables[i].Name && x.f2.Parent == tables[j].Name);
             if (cjoins.length > 0) {
 
-              tmp += " " + this.getJoinName(cjoins[0].joinType) + " " + tables[j].originalname + " " + tables[j].name +
+              tmp += " \n" + this.getJoinName(cjoins[0].JoinType) + " \n\t" + tables[j].OriginalName + " " + tables[j].Name +
                 " ON ";
               tmp += cjoins.map((j: JoinModel) => {
-                return j.f1.id.replace("_", ".") + " = " + j.f2.id.replace("_", ".");
+                return j.f1.Id.replace("_", ".") + " = " + j.f2.Id.replace("_", ".");
               }).join(" AND ");
 
             }
@@ -158,7 +170,7 @@ export class WorkspaceService {
       return "FROM " + tmp;
     } else {
       if (tables.length > 0) {
-        return "FROM " + tables[0].originalname + " as " + tables[0].name;
+        return "FROM " + tables[0].OriginalName + " as " + tables[0].Name;
       }
       else {
         return "";

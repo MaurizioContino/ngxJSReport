@@ -26,6 +26,7 @@ import {DropdownModule} from 'primeng/dropdown';
 import {InputTextModule} from 'primeng/inputtext';
 import {SplitterModule} from 'primeng/splitter';
 import { ReportComponent } from './controls/report/report.component';
+import {ScrollPanelModule} from 'primeng/scrollpanel';
 
 import { ChipModule } from 'primeng/chip';
 
@@ -59,7 +60,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     DropdownModule,
     InputTextModule,
     SplitterModule,
-    ChipModule
+    ChipModule,
+    ScrollPanelModule
   ],
   providers: [
     {

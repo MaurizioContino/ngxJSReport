@@ -1,17 +1,17 @@
 
 
-<div [id]="field.id" #thisfield style="display: flex; flex-direction: row;width: 100%; height: 30px; padding:5px; border-bottom: 1px solid silver;"
+<div [id]="field.Id" #thisfield style="display: flex; flex-direction: row;width: 100%; height: 30px; padding:5px; border-bottom: 1px solid silver; font-size: 10px;"
       cdkDropList [cdkDropListData]="joins" (cdkDropListDropped)="drop($event, thisfield)">
-  <div [id]="field.id" style="width: 100%;" cdkDrag>
+  <div [id]="field.Id" style="width: 100%;" cdkDrag>
     <div style="display: flex; flex-direction: row; width: 90%;padding: 0px 5px; justify-content: stretch;">
       <div class="fieldvalues">
-        <input type="checkbox" [(ngModel)]="field.selected" (change)="EmitFieldChange(field)">
+        <input type="checkbox" [(ngModel)]="field.Selected" (change)="EmitFieldChange(field)">
       </div>
-      <div class="fieldvalues">{{field.originalname}}</div>
+      <div class="fieldvalues" style="width: 300px;">{{field.OriginalName}}</div>
       <span style="flex: 1 0 auto;"></span>
         <fa-icon [icon]="['fas', 'object-group']" style="background-color: white; color: rgb(217, 214, 214);" (click)="op.toggle($event)" ></fa-icon>
-      <div class="fieldvalues" style="width: 50px;">{{field.type}}</div>
-      <div class="fieldvalues">{{field.size}}</div>
+      <div class="fieldvalues" style="width: 50px;">{{field.FieldType}}</div>
+      <div class="fieldvalues" style="width: 50px;">{{field.Size}}</div>
     </div>
     <svg *cdkDragPreview >
       <circle r="5" cx="5" cy="5"></circle>
@@ -24,19 +24,19 @@
 
     <h3>Grouping</h3>
     <div class="field-radiobutton" style="margin-bottom:5px">
-      <p-radioButton name="groupType" value="" [(ngModel)]="field.groupType" inputId="groupNone" (click)="GroupFieldChange(field)"></p-radioButton>
+      <p-radioButton name="groupType" value="" [(ngModel)]="field.GroupType" inputId="groupNone" (click)="GroupFieldChange(field)"></p-radioButton>
       <label style="margin-left:10px" for="groupNone">None</label>
   </div>
   <div class="field-radiobutton" style="margin-bottom:5px">
-      <p-radioButton name="groupType" value="Group" [(ngModel)]="field.groupType" inputId="groupGroup" (click)="GroupFieldChange(field)"></p-radioButton>
+      <p-radioButton name="groupType" value="Group" [(ngModel)]="field.GroupType" inputId="groupGroup" (click)="GroupFieldChange(field)"></p-radioButton>
       <label style="margin-left:10px" for="groupGroup">Group</label>
   </div>
   <div class="field-radiobutton" style="margin-bottom:5px">
-      <p-radioButton name="groupType" value="Sum" [(ngModel)]="field.groupType" inputId="groupSum" (click)="GroupFieldChange(field)"></p-radioButton>
+      <p-radioButton name="groupType" value="Sum" [(ngModel)]="field.GroupType" inputId="groupSum" (click)="GroupFieldChange(field)"></p-radioButton>
       <label style="margin-left:10px" for="groupSum">Sum</label>
   </div>
   <div class="field-radiobutton" style="margin-bottom:5px">
-      <p-radioButton name="groupType" value="Count" [(ngModel)]="field.groupType" inputId="groupCount" (click)="GroupFieldChange(field)"></p-radioButton>
+      <p-radioButton name="groupType" value="Count" [(ngModel)]="field.GroupType" inputId="groupCount" (click)="GroupFieldChange(field)"></p-radioButton>
       <label style="margin-left:10px" for="groupCount">Count</label>
   </div>
   </ng-template>

@@ -1,27 +1,34 @@
 <h1>Workspace</h1>
 <div style="display: flex; flex-direction: row; justify-content: stretch; height: 100%;" cdkDropListGroup>
-  <div style="width: 400px; position: relative; z-index: 1000">
+  <div style="width: 520px; position: relative; z-index: 1000">
     <p-tabView [(activeIndex)]="tabindex">
       <p-tabPanel header="Tables">
+        <p-scrollPanel [style]="{width: '100%', height: '700px'}">
         <div
-          *ngFor="let t of getAvailableTables()"
+          *ngFor="let t of AvailableTables"
           style="display: flex; flex-direction: row; justify-content: stretch"
         >
           <div>
-            {{ t.name }}
+            {{ t.Name }}
           </div>
           <span style="flex: 1 0 auto"></span>
           <button p-button (click)="AddTable(t)">></button>
         </div>
+      </p-scrollPanel>
       </p-tabPanel>
       <p-tabPanel header="Fields">
         <input type="checkbox" [(ngModel)]="ws.Distinct" /> Distinct values
+        <div style="display: flex; flex-direction: row; justify-content: stretch; margin-top: 8px; font-size: 12px; padding-left:12px">
+          <div  style="width:160px; font-weight: bold;">Field</div>
+          <div  style="width:150px; font-weight: bold;">Name</div>
+          <div  style="width:90px; font-weight: bold;">Group</div>
+      </div>
         <div class="field-list" cdkDropList [cdkDropListData]="ws.SelectedFields">
         <div *ngFor="let f of ws.SelectedFields" cdkDrag
-            style="display: flex; flex-direction: row; justify-content: stretch; margin-top: 8px;">
+            style="display: flex; flex-direction: row; justify-content: stretch; margin-top: 8px; font-size: 12px;">
 
-            <div  style="width:90px">
-              {{ f.originalname }}
+            <div  style="width:160px">
+              {{ f.OriginalName }}
             </div>
 
             <input
@@ -29,13 +36,13 @@
               class="p-inputtext-sm"
               placeholder="Small"
               pInputText
-              [(ngModel)]="f.name"
-              style="width:90px"
+              [(ngModel)]="f.Name"
+              style="width:150px; font-size: 12px;"
             />
 
           <p-dropdown
             [options]="GroupTypes"
-            [(ngModel)]="f.groupType"
+            [(ngModel)]="f.GroupType"
             (onChange)="groupCheck()"
 
           ></p-dropdown>

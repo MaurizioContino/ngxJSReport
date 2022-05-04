@@ -33,8 +33,7 @@ export class AppComponent {
       new FieldModel('name2', 'string', '0', 'table2'),
     ]);
 
-    ws.AvailableTables['table1'] =  t1;
-    ws.AvailableTables['table2'] =  t2;
+
 
   }
 }

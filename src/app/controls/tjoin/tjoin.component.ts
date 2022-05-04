@@ -40,8 +40,8 @@ export class TjoinComponent implements OnInit {
         y2: 0
       }
     }
-    var id1 = this.join.f1.id;
-    var id2 = this.join.f2.id;
+    var id1 = this.join.f1.Id;
+    var id2 = this.join.f2.Id;
 
     var e1 = document.getElementById(id1)
     var e2 = document.getElementById(id2)

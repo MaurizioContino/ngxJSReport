@@ -17,7 +17,7 @@ export class ReportField implements IReportElement {
 
   constructor(field: FieldModel) {
     this.baseField = field;
-    this.label = field.name;
+    this.label = field.Name;
     this.labelVisible = false;
     this.labelClass = '';
     this.valueClass = '';
