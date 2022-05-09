@@ -28,5 +28,20 @@
   padding: 10px;
   color: #ccc;
   cursor: move;
+  flex: 1 0 auto;
 
+}
+.tablename-editor {
+  background-color: transparent;
+  border: none;
+  outline: none;
+  max-width: 200px;
+  overflow: hidden;
+
+}
+.delete-button {
+  background-color: cadetblue;
+  padding:10px;
+  color: black;
+  cursor: pointer;
 }

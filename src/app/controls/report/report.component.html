@@ -1,5 +1,5 @@
 <div style="display: flex; flex-direction: row; justify-content: stretch">
-  <button (click)="fai()"></button>
+
   <div style="height: 100%; width:210mm" *ngIf="report && report.mainGroup">
     <div #title (click)="SelectElement($event, title, report.title)">
       <input [(ngModel)]="report.title.Title" class="labelInput {{report.title.Class}}">
@@ -9,9 +9,12 @@
       *ngTemplateOutlet="group; context: getContex(report.mainGroup)"
     ></ng-container>
   </div>
-  <div *ngIf="this.currentElement" style="width: 300px; height: 100%">
-    <h6>Element details</h6>
 
+  <div style="width: 300px; height: 100%;padding-left:30px">
+    <button class="p-button" (click)="fai()">Open report</button>
+
+    <h6>Element details</h6>
+<div *ngIf="this.currentElement">
     <div
       *ngFor="let e of currentProperties"
       style="display: flex; flex-direction: row; padding: 10px;"
@@ -29,7 +32,8 @@
       </div>
 
     </div>
-  </div>
+ </div>
+</div>
 
   <ng-template #group let-g>
 

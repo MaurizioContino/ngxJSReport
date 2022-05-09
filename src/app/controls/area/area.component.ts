@@ -51,10 +51,7 @@ export class AreaComponent implements OnInit {
     this.ws.workspaceChanged();
   }
 
-  AddTable(t: TableModel) {
 
-    this.ws.addtable(t)
-  }
   TableChanged(e: any) {
     var field = e.field as FieldModel;
     if (field.Selected) {

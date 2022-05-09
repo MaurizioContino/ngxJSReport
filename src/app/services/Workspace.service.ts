@@ -1,8 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { EventEmitter, Injectable } from '@angular/core';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { FieldModel } from '../models/FieldModel';
+import { FilterModel } from '../models/FilterModel';
 import { JoinModel } from '../models/JoinModel';
+import { QueryModel } from '../models/QueryModel';
 import { ReportModel } from '../models/ReportModel';
 import { TableModel } from '../models/TableModel';
 
@@ -12,14 +14,52 @@ import { TableModel } from '../models/TableModel';
 })
 export class WorkspaceService {
 
-  public Joins: JoinModel[] = [];
+
+  public query: QueryModel = new QueryModel();
+
+  public get Joins(): JoinModel[] {
+    return this.query.Joins;
+  }
+  public set Joins(value: JoinModel[]) {
+    this.query.Joins = value;
+  }
+
+  public get Tables(): any {
+    return this.query.Tables;
+  }
+  public set Tables(value: any) {
+    this.query.Tables = value;
+  }
+
+
+  public get Filters(): FilterModel[] {
+    return this.query.Filters;
+  }
+  public set Filters(value: FilterModel[]) {
+    this.query.Filters = value;
+  }
+
+  public get Havings(): any {
+    return this.query.Havings;
+  }
+  public set Havings(value: any) {
+    this.query.Havings = value;
+  }
+
+  public get SelectedFields(): FieldModel[] {
+    return this.query.SelectedFields;
+  }
+  public set SelectedFields(value: FieldModel[]) {
+    this.query.SelectedFields = value;
+  }
+
   public AvailableTables = new BehaviorSubject<TableModel[]>([]);
-  public Tables: any = {};
+
   public JoinsChanged = new EventEmitter<JoinModel[]>();
   public onWorkspaceChange = new Subject<any>();
   private idTable = 0;
   public Distinct = false;
-  SelectedFields: FieldModel[] = [];
+
 
   constructor(private http: HttpClient) {
 
@@ -28,7 +68,7 @@ export class WorkspaceService {
    getAvailableTable() {
 
       this.http.get<TableModel[]>('https://localhost:7009/Database').subscribe(data => {
-        this.AvailableTables.next(data.map(x => new TableModel(x.Name, x.Fields)));
+        this.AvailableTables.next(data.map(x => new TableModel(x.Name, x.Fields)).sort((a, b) => a.Name.localeCompare(b.Name)));
 
       });
 
@@ -71,11 +111,13 @@ export class WorkspaceService {
 
   public GetField(tablename: string, fieldname: string) {
     var ret = null;
-    this.Tables[tablename].fields.forEach((element: FieldModel) => {
-      if (element.Name == fieldname) {
-        ret = element;
-      }
-    });
+    if (this.Tables[tablename]) {
+      this.Tables[tablename].Fields.forEach((element: FieldModel) => {
+        if (element.Name == fieldname) {
+          ret = element;
+        }
+      });
+    }
     return ret;
   }
 
@@ -89,6 +131,45 @@ export class WorkspaceService {
     this.onWorkspaceChange.next(this);
   }
 
+  renameTable(oldname: string, newname: string) {
+    var newtablelist: any = {};
+    for (var key in this.Tables) {
+      if (key == oldname) {
+        newtablelist[newname] = this.Tables[key];
+        newtablelist[newname].Name = newname;
+        newtablelist[newname].Fields.forEach((f:FieldModel) => {
+          this.Joins.forEach(j => {
+            if (j.f1.Id ==f.Id) j.f1.Id =  newname + "_" + f.OriginalName;
+            if (j.f2.Id ==f.Id) j.f2.Id =  newname + "_" + f.OriginalName;
+          });
+          f.Id = newname + "_" + f.OriginalName;
+          f.Parent = newname;
+        })
+      } else {
+        newtablelist[key] = this.Tables[key];
+      }
+    }
+    this.Tables = newtablelist;
+
+  }
+
+  RemoveTable(table: TableModel) {
+
+    this.Joins.forEach(j => {
+      if (j.f1.Parent == table.Name || j.f2.Parent == table.Name) {
+        this.RemoveJoin(j);
+      }
+    });
+    var df = this.SelectedFields.filter(x => x.Parent == table.Name);
+    df.forEach(f => {
+        this.RemoveField(f)
+    });
+    delete this.Tables[table.Name];
+  }
+
+  RemoveField(f: FieldModel) {
+    this.SelectedFields.splice(this.SelectedFields.indexOf(f), 1);
+  }
 
   getJoinName(type: number) {
     switch(type) {
@@ -111,7 +192,7 @@ export class WorkspaceService {
     var select = this.CalculateSelect();
     var from = this.CalculateFrom();
     var groupby = this.CalculateGroupBy();
-    var where = "";
+    var where = this.CalculateWhere();
     var sort = "";
 
     return select + " \n" + from + " \n" + groupby + " \n" + where + " \n" + sort;
@@ -134,7 +215,7 @@ export class WorkspaceService {
     var tmp = "SELECT ";
     if (this.SelectedFields.length>0) {
       tmp +=  this.SelectedFields.map((f: FieldModel) => {
-        return '\n\t' + (f.GroupType ==  "" || f.GroupType == "Group" ?  f.OriginalName : f.GroupType + '(' + f.OriginalName + ')'  + " as " + f.Name)
+        return '\n\t' + (f.GroupType ==  "" || f.GroupType == "Group" ?  f.OriginalName : f.GroupType + '(' + f.OriginalName + ')')  + " as " + f.Name
       }).join(',')
     } else {
       tmp += "*"
@@ -177,5 +258,51 @@ export class WorkspaceService {
       }
     }
   }
+  CalculateWhere() {
+    var tmp = "";
+    var filters = this.Filters.filter((v:FilterModel)=>v.Field && v.Value);
+    if (filters.length>0) {
+      tmp = "WHERE ";
+      tmp +=  filters.map((f: FilterModel) => {
+        return '\n\t' + (f.Field.Id.replace("_", ".")  + " " + f.Operator + " " + this.getValue(f) );
+      }).join(' AND ')
+    }
+    return tmp;
+  }
+  getValue(filter: FilterModel) {
+    var ft = filter.Field.FieldType.toLowerCase();
+    if (filter.Value && !filter.Value.startsWith("@") && (filter.Field.FieldType == "varchar" || filter.Field.FieldType == "char" || filter.Field.FieldType == "date" || filter.Field.FieldType == "datetime")) {
+      return "'" + filter.Value + "'";
+    } else {
+      return filter.Value;
+    }
+  }
 
+
+  GetQueryModel(): QueryModel {
+    var q = JSON.parse(JSON.stringify(this.query));
+    q.Tables  = {} as any;
+    for (var key in this.Tables) {
+      q.Tables[key] = {
+        OriginalName : this.Tables[key].OriginalName,
+        Name : this.Tables[key].Name,
+        Fields : this.Tables[key].Fields
+      };
+    }
+    return q;
+  }
+
+  GetData(page: number, pagesize: number): Observable<any[]> {
+    var ret = new Subject<any[]>();
+    var q = this.GetQueryModel();
+    q.PageSize  = pagesize;
+    q.Page = page;
+
+
+    this.http.post<any[]>('https://localhost:7009/Queries', q).subscribe(data => {
+      ret.next(data);
+    });
+    return ret;
+
+  }
 }

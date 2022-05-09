@@ -1,0 +1,10 @@
+
+
+  <div style="display:flex; flex-direction: row; flex-wrap: wrap; width: 100%">
+
+    <div  *ngFor="let p of GetParameters()" style="width: 300px; display: flex; flex-direction: row; justify-content: stretch; align-items: center;">
+      <label for="{{'id_' + p.Value}}">{{p.Value}}</label>
+      <input [id]="'id_' + p.Value" title="Variable value" type="text" [(ngModel)]="p.VariableValue" style="margin-left: 10px; flex: 1 0 auto" />
+    </div>
+
+</div>

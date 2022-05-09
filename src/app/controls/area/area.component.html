@@ -3,57 +3,23 @@
   <div style="width: 520px; position: relative; z-index: 1000">
     <p-tabView [(activeIndex)]="tabindex">
       <p-tabPanel header="Tables">
-        <p-scrollPanel [style]="{width: '100%', height: '700px'}">
-        <div
-          *ngFor="let t of AvailableTables"
-          style="display: flex; flex-direction: row; justify-content: stretch"
-        >
-          <div>
-            {{ t.Name }}
-          </div>
-          <span style="flex: 1 0 auto"></span>
-          <button p-button (click)="AddTable(t)">></button>
-        </div>
-      </p-scrollPanel>
+      <app-table-selection [AvailableTables]="AvailableTables"></app-table-selection>
       </p-tabPanel>
       <p-tabPanel header="Fields">
-        <input type="checkbox" [(ngModel)]="ws.Distinct" /> Distinct values
-        <div style="display: flex; flex-direction: row; justify-content: stretch; margin-top: 8px; font-size: 12px; padding-left:12px">
-          <div  style="width:160px; font-weight: bold;">Field</div>
-          <div  style="width:150px; font-weight: bold;">Name</div>
-          <div  style="width:90px; font-weight: bold;">Group</div>
-      </div>
-        <div class="field-list" cdkDropList [cdkDropListData]="ws.SelectedFields">
-        <div *ngFor="let f of ws.SelectedFields" cdkDrag
-            style="display: flex; flex-direction: row; justify-content: stretch; margin-top: 8px; font-size: 12px;">
-
-            <div  style="width:160px">
-              {{ f.OriginalName }}
-            </div>
-
-            <input
-              type="text"
-              class="p-inputtext-sm"
-              placeholder="Small"
-              pInputText
-              [(ngModel)]="f.Name"
-              style="width:150px; font-size: 12px;"
-            />
-
-          <p-dropdown
-            [options]="GroupTypes"
-            [(ngModel)]="f.GroupType"
-            (onChange)="groupCheck()"
-
-          ></p-dropdown>
-        </div>
-      </div>
+        <app-field-selected ></app-field-selected>
       </p-tabPanel>
+      <p-tabPanel header="Filters">
+
+        <app-filter></app-filter>
+        <app-having></app-having>
+
+      </p-tabPanel>
+
     </p-tabView>
   </div>
   <div style="flex: 1 0 auto">
   <p-tabView [(activeIndex)]="viewindex" [style]="{'width': '100%'}">
-    <p-tabPanel header="Query" >
+    <p-tabPanel header="Query Designer" >
 
           <div cdkDropListGroup style="min-width: 400px;" >
             <app-table
@@ -71,8 +37,8 @@
 
 
     </p-tabPanel>
-    <p-tabPanel header="SQL">
-      <textarea id="sql" style="width: 100%; height: 100%;" readonly="true" [ngModel]="ws.GetQuery()"></textarea>
+    <p-tabPanel header="Data preview" class="datapreview">
+     <app-data-preview></app-data-preview>
     </p-tabPanel>
     <p-tabPanel header="Report">
       <app-report></app-report>

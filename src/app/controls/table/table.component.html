@@ -1,9 +1,14 @@
 <div class="table-box" cdkDrag >
-  <div class="table-handle" cdkDragHandle>
-    <div>{{Table.Name}}</div>
+  <div style="display: flex;flex-direction: row; justify-items: stretch;">
+    <div class="table-handle" cdkDragHandle>
+      <label for="tablename"></label>
+      <input id="tablename" title="table name" [(ngModel)]="TableName" (blur)="Rename()"  class="tablename-editor">
+      <label style="font-size: 10px;color: black;">({{Table.OriginalName}})</label>
+    </div>
+    <fa-icon [icon]="['fas', 'times']" class="delete-button" (click)="delete()" ></fa-icon>
   </div>
   <perfect-scrollbar id="{{Table.Name}}" style="width: 100%;" (psScrollY)="scrolled($event)">
-    <app-field *ngFor="let f of Table.Fields" [field]="f" style="width: 100%" (OnFieldChange)="EmitTableChange(f)">
+    <app-field *ngFor="let f of Table.Fields" [field]="f" style="width: 100%" >
 
     </app-field>
   </perfect-scrollbar>

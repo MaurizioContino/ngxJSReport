@@ -5,6 +5,7 @@ import { ReportGroup } from 'src/app/models/reportElements/ReportGroup';
 import { ReportGroupHeader } from 'src/app/models/reportElements/ReportGroupHeader';
 import { ReportModel } from 'src/app/models/ReportModel';
 import { JSReportService } from 'src/app/services/JSReportService';
+import { WorkspaceService } from 'src/app/services/Workspace.service';
 
 @Component({
   selector: 'app-report',
@@ -16,7 +17,7 @@ export class ReportComponent implements OnInit {
   currentElement: any = null;
   currentObj: any;
   currentProperties: any[] = [];
-  constructor(private rep: JSReportService) {}
+  constructor(private rep: JSReportService, private ws: WorkspaceService) {}
 
   ngOnInit(): void {
     this.report.Name = 'Test Report';
@@ -82,6 +83,6 @@ export class ReportComponent implements OnInit {
 
   }
   fai(){
-    this.rep.run(this.report);
+    this.rep.run(this.report, this.ws.GetQueryModel());
   }
 }

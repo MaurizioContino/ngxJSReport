@@ -1,0 +1,45 @@
+.filter-list {
+  margin-top: 30px;
+  padding-left:10px;
+  width: 430px;
+}
+.filter-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: stretch;
+  margin-top: 18px;
+  font-size: 12px;
+
+}
+.filter-row{
+  margin-top:10px;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: stretch;
+  flex-wrap: wrap;
+
+}
+.filter {
+  display: flex;
+  flex-direction: column;
+  justify-content: stretch;
+  margin-top: 8px;
+  font-size: 12px;
+}
+
+.line1 {
+  display: flex;
+  flex-direction: row;
+}
+
+.field {
+  width: 100%;
+}
+.label {
+
+  font-weight: bold;
+}
+.p-dropdown-label {
+  flex: 1 0 auto;
+}

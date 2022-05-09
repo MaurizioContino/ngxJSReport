@@ -27,8 +27,15 @@ import {InputTextModule} from 'primeng/inputtext';
 import {SplitterModule} from 'primeng/splitter';
 import { ReportComponent } from './controls/report/report.component';
 import {ScrollPanelModule} from 'primeng/scrollpanel';
-
+import {AccordionModule} from 'primeng/accordion';
 import { ChipModule } from 'primeng/chip';
+import { TableSelectionComponent } from './controls/table-selection/table-selection.component';
+import { FieldSelectedComponent } from './controls/field-selected/field-selected.component';
+import { FilterComponent } from './controls/filter/filter.component';
+import { HavingComponent } from './controls/having/having.component';
+import { DataPreviewComponent } from './controls/data-preview/data-preview.component';
+import { ParametersComponent } from './controls/parameters/parameters.component';
+import { TableModule } from 'primeng/table';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true
@@ -41,7 +48,13 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     TjoinComponent,
     AreaComponent,
     JoinIconsComponent,
-    ReportComponent
+    ReportComponent,
+    TableSelectionComponent,
+    FieldSelectedComponent,
+    FilterComponent,
+    HavingComponent,
+    DataPreviewComponent,
+    ParametersComponent
   ],
   imports: [
     BrowserModule,
@@ -61,7 +74,9 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     InputTextModule,
     SplitterModule,
     ChipModule,
-    ScrollPanelModule
+    ScrollPanelModule,
+    AccordionModule,
+    TableModule
   ],
   providers: [
     {

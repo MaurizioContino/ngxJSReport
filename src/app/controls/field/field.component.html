@@ -5,7 +5,8 @@
   <div [id]="field.Id" style="width: 100%;" cdkDrag>
     <div style="display: flex; flex-direction: row; width: 90%;padding: 0px 5px; justify-content: stretch;">
       <div class="fieldvalues">
-        <input type="checkbox" [(ngModel)]="field.Selected" (change)="EmitFieldChange(field)">
+        <fa-icon [icon]="['fas', 'add']" style="color:green" (click)="EmitFieldChange(field)" ></fa-icon>
+
       </div>
       <div class="fieldvalues" style="width: 300px;">{{field.OriginalName}}</div>
       <span style="flex: 1 0 auto;"></span>

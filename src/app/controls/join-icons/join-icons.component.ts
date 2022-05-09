@@ -19,8 +19,8 @@ export class JoinIconsComponent implements OnInit {
   getCoordinates(join: any) {
 
 
-    var id1 = join.f1.id;
-    var id2 = join.f2.id;
+    var id1 = join.f1.Id;
+    var id2 = join.f2.Id;
 
     var e1 = document.getElementById(id1)
     var e2 = document.getElementById(id2)

@@ -48,10 +48,17 @@ export class FieldComponent implements OnInit {
     }
   }
   EmitFieldChange(field: FieldModel) {
-    this.OnFieldChange.emit(field);
+    var v = JSON.parse(JSON.stringify(field)) as FieldModel ;
+    v.Selected = true;
+    this.ws.SelectedFields.push(v);
+    this.OnFieldChange.emit(v);
   }
   GroupFieldChange(field: FieldModel) {
     if (field.GroupType != "") {
+      var v = JSON.parse(JSON.stringify(field)) as FieldModel ;
+      v.Selected = true;
+      this.ws.SelectedFields.push(v);
+      this.OnFieldChange.emit(v);
       field.Selected = true;
     }
     this.OnFieldChange.emit(field);

@@ -1,0 +1,35 @@
+
+
+<button class="p-button" (click)="newfilter()" >
+  <fa-icon [icon]="['fas', 'add']" style="background-color: transparent; color: rgb(217, 214, 214);" ></fa-icon>
+</button>
+
+<div class="filter-list">
+  <p-scrollPanel [style]="{width: '100%', height: '700px'}">
+  <div *ngFor="let f of ws.Filters" class="filter-row">
+
+      <p-dropdown [options]="GetFields()" [(ngModel)]="f.Field"  optionLabel="Id" appendTo="body" ></p-dropdown>
+
+      <p-dropdown
+        [options]="FilterTypes"
+        [(ngModel)]="f.Operator"
+        optionLabel="label"
+        optionValue="value"
+        appendTo="body"
+      ></p-dropdown>
+
+
+
+    <input
+    type="text"
+    class="p-inputtext-sm "
+    placeholder="Value"
+    pInputText
+    [(ngModel)]="f.Value"
+
+  />
+
+  </div>
+</p-scrollPanel>
+</div>
+

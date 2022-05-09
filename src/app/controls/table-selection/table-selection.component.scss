@@ -1,0 +1,10 @@
+.table-row {
+  display: flex; flex-direction: row; justify-content: stretch;
+  cursor: pointer;
+  padding: 5px;
+  width: 430px;
+}
+.table-row:hover {
+  background-color: cadetblue;
+  color: white;
+}
