@@ -16,7 +16,7 @@ export class ReportGroup implements IReportElement {
   public GroupFooter = new ReportGroupFooter();
   public BreakFields: GroupField[] = [];
   public Fields: GroupField[] = [];
-  public child: IReportElement =  new ReportDetails();
+  public child: ReportGroup | undefined;
 
 
 

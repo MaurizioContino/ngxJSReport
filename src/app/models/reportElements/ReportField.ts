@@ -19,7 +19,7 @@ export class ReportField implements IReportElement {
     this.baseField = field;
     this.label = field.Name;
     this.labelVisible = false;
-    this.labelClass = '';
+    this.labelClass = 'details-label';
     this.valueClass = '';
   }
 

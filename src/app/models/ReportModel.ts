@@ -11,6 +11,8 @@ export class ReportModel {
 
   public title = new ReportTitle(null);
   public mainGroup =  new ReportGroup();
+  public Details = new ReportDetails();
+
 
   constructor() {
     this.title.Title = "Report title";

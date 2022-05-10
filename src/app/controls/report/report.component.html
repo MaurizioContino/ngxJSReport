@@ -1,15 +1,44 @@
 <div style="display: flex; flex-direction: row; justify-content: stretch">
-
-  <div style="height: 100%; width:210mm" *ngIf="report && report.mainGroup">
-    <div #title (click)="SelectElement($event, title, report.title)">
-      <input [(ngModel)]="report.title.Title" class="labelInput {{report.title.Class}}">
-
+  <div style="display: flex; flex-direction: column; justify-content: stretch">
+    <div #title *ngIf="report"  (click)="SelectElement($event, title, report.title)">
+      <input [(ngModel)]="report.title.Title" title="title" class="labelInput {{report.title.Class}}">
     </div>
-    <ng-container
-      *ngTemplateOutlet="group; context: getContex(report.mainGroup)"
-    ></ng-container>
-  </div>
 
+    <div style="height: 100%; width:210mm">
+      <ng-container
+        *ngTemplateOutlet="groupHeader; context: getContex(report.mainGroup)"
+      ></ng-container>
+    </div>
+
+    <div style="height: 100%; width:210mm">
+      <div
+        style="margin-right:10px;display: flex; flex-direction: row; background-color: white; border: 3px dashed gray; height:80px; width: 100%;"
+        #details cdkDropList
+        (cdkDropListDropped)="dropDetails($event, report.Details)"
+        (click)="SelectElement($event, details, report.Details)">
+
+        <table class='table striped'>
+          <thead>
+            <th *ngFor="let f of report.Details.Fields" #field (click)="SelectElement($event, field, f)" [class]="f.labelClass">
+              {{f.label}}
+              <fa-icon [icon]="['fas', 'times']" (click)="RemoveField(report.Details, f)" style="margin-left:8px"></fa-icon>
+            </th>
+          </thead>
+          <tbody>
+            <tr>
+              <td *ngFor="let f of report.Details.Fields">[{{f.baseField.Name}}]</td>
+            </tr>
+          </tbody>
+        </table>
+
+      </div>
+    </div>
+    <div style="height: 100%; width:210mm">
+      <ng-container
+        *ngTemplateOutlet="groupFooter; context: getContex(report.mainGroup)"
+      ></ng-container>
+    </div>
+  </div>
   <div style="width: 300px; height: 100%;padding-left:30px">
     <button class="p-button" (click)="fai()">Open report</button>
 
@@ -22,50 +51,41 @@
       <div style="width: 50%">{{ e.name }}</div>
       <div *ngIf="e.readonly" style="width: 50%">{{ e.value }}</div>
       <div *ngIf="!e.readonly && e.type=='boolean'" style="width: 50%">
-        <input type="checkbox" [(ngModel)]="this.currentElement[e.name]" />
+        <input title="ftype" type="checkbox" [(ngModel)]="this.currentElement[e.name]" />
       </div>
       <div *ngIf="!e.readonly && e.type=='number'" style="width: 50%">
-        <input type="number" [(ngModel)]="this.currentElement[e.name]" />
+        <input title="ftype" type="number" [(ngModel)]="this.currentElement[e.name]" />
       </div>
       <div *ngIf="!e.readonly && e.type=='string'" style="width: 50%">
-        <input type="text" [(ngModel)]="this.currentElement[e.name]" />
+        <input title="ftype" type="text" [(ngModel)]="this.currentElement[e.name]" />
       </div>
 
     </div>
  </div>
 </div>
 
-  <ng-template #group let-g>
+  <ng-template #groupHeader let-g>
 
+    <div style="height: 120px; width: 100%; background-color: silver; padding:5px"
+    (click)="SelectElement($event, groupHeader, g.GroupHeader)">
 
-    <div *ngIf="g.ElementType === 'Group'" style="width: 100%;">
-
-      <div
-        #maingroupHeader
-        style="height: 120px; width: 100%; background-color: silver; padding:5px"
-        (click)="SelectElement($event, maingroupHeader, g.GroupHeader)">
         <div style="display: flex; flex-direction: column; width:100%">
           <div style="display: flex; flex-direction: row;justify-content: stretch; align-items: center; width:100%"
                cdkDropList (cdkDropListDropped)="dropGroupBreak($event, g)">
             <div style="margin-right:10px">Group header</div>
             <div style="margin-right:10px">Break on change of</div>
             <div style="margin-right:10px" *ngFor="let f of g.BreakFields">
-
               <p-chip>
                 {{f.baseField.name}}
                 <fa-icon [icon]="['fas', 'times']" (click)="RemoveGroupBreak(g, f)" style="margin-left:8px"></fa-icon>
               </p-chip>
             </div>
-
-
-
           </div>
-
             <div cdkDropList (cdkDropListDropped)="dropGroup($event, g)"
               style="display: flex; flex-direction: row; justify-content:start; flex-wrap: wrap; align-items: center; width:100%; border: 3px dashed gray; height:80px" >
               <div #itm style="margin-right:10px;display: flex; flex-direction: row;" *ngFor="let f of g.Fields"  (click)="SelectElement($event, itm, f)">
 
-                  <input [(ngModel)]="f.label" class="labelInput {{f.labelClass}}" [style.width.mm]="f.labelWidth" *ngIf="f.labelVisible">
+                  <input title="labelclass" [(ngModel)]="f.label" class="labelInput {{f.labelClass}}" [style.width.mm]="f.labelWidth" *ngIf="f.labelVisible">
                   <div [style.width.mm]="f.valueWidth" class=" {{f.valueClass}}">[{{f.baseField.name}}]</div>
                   <fa-icon [icon]="['fas', 'times']" (click)="RemoveGroup(g, f)" style="margin-left:8px"></fa-icon>
 
@@ -74,28 +94,26 @@
 
         </div>
 
-      </div>
-      <div style="padding-left: 50px">
+      <div style="padding-left: 50px" *ngIf="g.child">
         <ng-container
-          *ngTemplateOutlet="group; context: getContex(g.child)"
+          *ngTemplateOutlet="groupHeader; context: getContex(g.child)"
         ></ng-container>
       </div>
-      <div
-        #maingroupFooter
-        style="height: 30px; width: 100%; background-color: silver"
-        (click)="SelectElement($event, maingroupFooter, g.GroupFooter)"
-      >
+
+    </div>
+
+  </ng-template>
+  <ng-template #groupFooter let-g>
+    <div style="padding-left: 50px"  *ngIf="g.child">
+      <ng-container
+        *ngTemplateOutlet="groupFooter; context: getContex(g.child)"
+      ></ng-container>
+    </div>
+
+    <div style="height: 30px; width: 100%; background-color: silver"
+        (click)="SelectElement($event, groupFooter, g.GroupFooter)">
         Group footer
       </div>
-    </div>
-    <div
-      #details
-      (cdkDropListDropped)="dropDetails($event, g)"
-      *ngIf="g.ElementType === 'Detail'"
-      (click)="SelectElement($event, details, g)"
-    >
-      Details
-    </div>
   </ng-template>
 </div>
 

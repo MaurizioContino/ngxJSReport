@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { FieldModel } from 'src/app/models/FieldModel';
 import { GroupField } from 'src/app/models/reportElements/GroupField';
 import { IReportElement } from 'src/app/models/reportElements/IReportElement';
+import { ReportDetails } from 'src/app/models/reportElements/ReportDetails';
+import { ReportField } from 'src/app/models/reportElements/ReportField';
 import { ReportGroup } from 'src/app/models/reportElements/ReportGroup';
 import { ReportGroupHeader } from 'src/app/models/reportElements/ReportGroupHeader';
 import { ReportModel } from 'src/app/models/ReportModel';
@@ -74,7 +77,14 @@ export class ReportComponent implements OnInit {
     var container = g as ReportGroup;
     container.Fields.splice(container.Fields.indexOf(f), 1);
   }
-  dropDetails(e: any, g: IReportElement){}
+  dropDetails(e: any, g: IReportElement){
+
+    if (g.ElementType=='Detail'){
+      var container = (g as ReportDetails);
+      var f = e.previousContainer.data[e.previousIndex] as FieldModel;
+      container.Fields.push(new ReportField(f));
+    }
+  }
 
   RemoveGroupBreak(g: IReportElement, f: GroupField){
 
@@ -82,6 +92,12 @@ export class ReportComponent implements OnInit {
       container.BreakFields.splice(container.BreakFields.indexOf(f), 1);
 
   }
+
+  RemoveField(g: IReportElement, f: ReportField){
+    var container = g as ReportDetails;
+    container.Fields.splice(container.Fields.indexOf(f), 1);
+  }
+
   fai(){
     this.rep.run(this.report, this.ws.GetQueryModel());
   }

@@ -36,6 +36,8 @@ import { HavingComponent } from './controls/having/having.component';
 import { DataPreviewComponent } from './controls/data-preview/data-preview.component';
 import { ParametersComponent } from './controls/parameters/parameters.component';
 import { TableModule } from 'primeng/table';
+import { DataExportComponent } from './controls/data-export/data-export.component';
+import { DataImportComponent } from './controls/data-import/data-import.component';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true
@@ -54,7 +56,9 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     FilterComponent,
     HavingComponent,
     DataPreviewComponent,
-    ParametersComponent
+    ParametersComponent,
+    DataExportComponent,
+    DataImportComponent
   ],
   imports: [
     BrowserModule,
