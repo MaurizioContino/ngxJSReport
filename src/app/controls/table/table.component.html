@@ -8,7 +8,7 @@
     <fa-icon [icon]="['fas', 'times']" class="delete-button" (click)="delete()" ></fa-icon>
   </div>
   <perfect-scrollbar id="{{Table.Name}}" style="width: 100%;" (psScrollY)="scrolled($event)">
-    <app-field *ngFor="let f of Table.Fields" [field]="f" style="width: 100%" >
+    <app-field *ngFor="let f of Table.Fields" [field]="f" style="width: 100%" (OnFieldChange)="EmitTableChange($event)">
 
     </app-field>
   </perfect-scrollbar>

@@ -1,5 +1,24 @@
+.fieldbutton {
+  margin: 0px 3px;
+  background: white;
+  width: 30px;
+  height: 22px;
+  padding: 0px 5px;
+  border-radius: 15px;
+  color: cadetblue;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+}
+.fieldbutton:hover {
+  background: cadetblue;
+  color: white;
+}
+
+
 .fieldvalues {
   margin: 0px 3px;
+
 }
 ::ng-deep .p-menubar {
   width: 20px !important;

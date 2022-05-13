@@ -8,7 +8,7 @@
   <div style="width: 90px; font-weight: bold">Group</div>
 </div>
 
-<div class="field-list" cdkDropList [cdkDropListData]="ws.SelectedFields" (drop)="drop($event)">
+<div class="field-list" cdkDropList [cdkDropListData]="ws.SelectedFields" (cdkDropListDropped)="drop($event)">
   <div *ngFor="let f of ws.SelectedFields" cdkDrag class="field">
     <div style="width: 160px;padding-top: 3px;">
       {{ f.OriginalName }}

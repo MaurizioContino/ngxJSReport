@@ -1,6 +1,6 @@
 export class AuthModel {
-   UserName? : string = "sa";
-   Password? : string  = "";
-   Server? : string  = "10.86.1.103";
+   UserName? : string = "test";
+   Password? : string  = "test";
+   Server? : string  = "localhost";
    Database? : string  = "TFH_SVIL";
 }

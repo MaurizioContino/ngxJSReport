@@ -34,12 +34,9 @@ export class FieldSelectedComponent implements OnInit {
   }
 
 
-  drop(event: CdkDragDrop<any>, e: any) {
-
-    //
-
+  drop(event: CdkDragDrop<any>) {
     if (event.previousContainer == event.container) {
-      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);\
+      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     }
   }
 }

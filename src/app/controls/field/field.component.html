@@ -4,10 +4,8 @@
       cdkDropList [cdkDropListData]="joins" (cdkDropListDropped)="drop($event, thisfield)">
   <div [id]="field.Id" style="width: 100%;" cdkDrag>
     <div style="display: flex; flex-direction: row; width: 90%;padding: 0px 5px; justify-content: stretch;">
-      <div class="fieldvalues">
-        <fa-icon [icon]="['fas', 'add']" style="color:green" (click)="EmitFieldChange(field)" ></fa-icon>
 
-      </div>
+      <fa-icon [icon]="['fas', 'add']" class="fieldbutton" (click)="EmitFieldChange(field)" ></fa-icon>
       <div class="fieldvalues" style="width: 300px;">{{field.OriginalName}}</div>
       <span style="flex: 1 0 auto;"></span>
         <fa-icon [icon]="['fas', 'object-group']" style="background-color: white; color: rgb(217, 214, 214);" (click)="op.toggle($event)" ></fa-icon>
