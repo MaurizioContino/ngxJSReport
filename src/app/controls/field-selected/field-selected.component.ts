@@ -1,3 +1,4 @@
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { FieldModel } from 'src/app/models/FieldModel';
 import { WorkspaceService } from 'src/app/services/Workspace.service';
@@ -30,5 +31,15 @@ export class FieldSelectedComponent implements OnInit {
   }
   Delete(f:FieldModel) {
     this.ws.RemoveField(f);
+  }
+
+
+  drop(event: CdkDragDrop<any>, e: any) {
+
+    //
+
+    if (event.previousContainer == event.container) {
+      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);\
+    }
   }
 }
