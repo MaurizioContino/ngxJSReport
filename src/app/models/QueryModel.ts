@@ -5,6 +5,7 @@ import { JoinModel } from "./JoinModel";
 import { TableModel } from "./TableModel";
 
 export class QueryModel {
+  SessionId: string = "";
   Tables: any = {};
   Fields: FieldModel[] = [];
   Joins: JoinModel[] = [];

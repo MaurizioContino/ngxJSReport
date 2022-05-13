@@ -1,4 +1,5 @@
 import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { AuthModel } from 'src/app/models/AuthModel';
 import { FieldModel } from 'src/app/models/FieldModel';
 import { TableModel } from 'src/app/models/TableModel';
 import { WorkspaceService } from 'src/app/services/Workspace.service';
@@ -13,7 +14,18 @@ export class AreaComponent implements OnInit {
 
 
   tabindex  = 0;
+  viewLogin= true;
   private _viewindex = 0;
+  private _auth: AuthModel = {};
+  public get auth(): AuthModel {
+    return this._auth;
+  }
+  public set auth(value: AuthModel) {
+    this._auth = value;
+    this.ws.getAvailableTable(value).subscribe((v:any)=>{
+      this.viewLogin = false;
+    });
+  }
   public get viewindex() {
     return this._viewindex;
   }
@@ -45,7 +57,7 @@ export class AreaComponent implements OnInit {
     this.ws.onWorkspaceChange.subscribe((ws: WorkspaceService) => {
       this.cdr.detectChanges();
     });
-    this.ws.getAvailableTable();
+
   }
   tablechanged(t: TableModel) {
     this.ws.workspaceChanged();

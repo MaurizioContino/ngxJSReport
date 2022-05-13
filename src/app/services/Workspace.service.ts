@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { EventEmitter, Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { AuthModel } from '../models/AuthModel';
 import { FieldModel } from '../models/FieldModel';
 import { FilterModel } from '../models/FilterModel';
 import { JoinModel } from '../models/JoinModel';
@@ -59,19 +60,21 @@ export class WorkspaceService {
   public onWorkspaceChange = new Subject<any>();
   private idTable = 0;
   public Distinct = false;
-
+  sessionId: string = "";
 
   constructor(private http: HttpClient) {
 
    }
 
-   getAvailableTable() {
+   getAvailableTable(auth: AuthModel):Subject<any> {
+      var ret = new Subject<any>();
+      this.http.post<any>('https://localhost:7009/Database', auth).subscribe(data => {
 
-      this.http.get<TableModel[]>('https://localhost:7009/Database').subscribe(data => {
-        this.AvailableTables.next(data.map(x => new TableModel(x.Name, x.Fields)).sort((a, b) => a.Name.localeCompare(b.Name)));
-
+        this.AvailableTables.next((data.Tables as TableModel[]).map(x => new TableModel(x.Name, x.Fields)).sort((a, b) => a.Name.localeCompare(b.Name)));
+        this.sessionId = data.SessionId;
+        ret.next(this.sessionId);
       });
-
+      return ret;
    }
 
 
@@ -282,11 +285,13 @@ export class WorkspaceService {
   GetQueryModel(): QueryModel {
     var q = JSON.parse(JSON.stringify(this.query));
     q.Tables  = {} as any;
+    q.SessionId = this.sessionId;
     for (var key in this.Tables) {
       q.Tables[key] = {
         OriginalName : this.Tables[key].OriginalName,
         Name : this.Tables[key].Name,
-        Fields : this.Tables[key].Fields
+        Fields : this.Tables[key].Fields,
+
       };
     }
     return q;
@@ -297,7 +302,7 @@ export class WorkspaceService {
     var q = this.GetQueryModel();
     q.PageSize  = pagesize;
     q.Page = page;
-
+    q.SessionId = this.sessionId;
 
     this.http.post<any[]>('https://localhost:7009/Queries', q).subscribe(data => {
       ret.next(data);

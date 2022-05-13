@@ -80,7 +80,8 @@ export class JSReportService {
     var req = {
       Content: this.parser(report),
       q : q,
-      ReportModel: JSON.stringify(report)
+      ReportModel: JSON.stringify(report),
+      SessionId: q.SessionId
     }
     this.http.post('https://localhost:7009/report', req, { responseType: 'blob' })
     .subscribe(res => {

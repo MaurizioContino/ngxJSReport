@@ -38,6 +38,10 @@ import { ParametersComponent } from './controls/parameters/parameters.component'
 import { TableModule } from 'primeng/table';
 import { DataExportComponent } from './controls/data-export/data-export.component';
 import { DataImportComponent } from './controls/data-import/data-import.component';
+import { DBLoginComponent } from './controls/dblogin/dblogin.component';
+import {CardModule} from 'primeng/card';
+import {PasswordModule} from 'primeng/password';
+
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true
@@ -58,7 +62,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     DataPreviewComponent,
     ParametersComponent,
     DataExportComponent,
-    DataImportComponent
+    DataImportComponent,
+    DBLoginComponent
   ],
   imports: [
     BrowserModule,
@@ -80,7 +85,9 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     ChipModule,
     ScrollPanelModule,
     AccordionModule,
-    TableModule
+    TableModule,
+    CardModule,
+    PasswordModule
   ],
   providers: [
     {

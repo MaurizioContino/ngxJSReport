@@ -1,0 +1,21 @@
+<p-card >
+
+
+  <h6 style="margin-top:10px">Server name or IP</h6>
+  <input type="text" pInputText [(ngModel)]="auth.Server" />
+
+  <h6 style="margin-top:10px">Database name</h6>
+  <input type="text" pInputText [(ngModel)]="auth.Database" />
+
+
+  <h6 style="margin-top:10px">User name</h6>
+  <input type="text" pInputText [(ngModel)]="auth.UserName" />
+
+  <h6 style="margin-top:10px">Show Password</h6>
+  <p-password [(ngModel)]="auth.Password" [toggleMask]="true"></p-password>
+
+
+  <ng-template pTemplate="footer">
+      <p-button (click)="login()">Login</p-button>
+  </ng-template>
+</p-card>
