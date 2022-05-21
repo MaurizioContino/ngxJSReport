@@ -31,9 +31,7 @@
               style="position: absolute;"
             ></app-table>
 
-            <app-tjoin *ngFor="let j of ws.Joins" [join]="j"></app-tjoin>
 
-            <app-join-icons></app-join-icons>
           </div>
 
 
@@ -56,6 +54,15 @@
   </p-tabView>
 </div>
 </div>
+
+
+
+<div *ngIf="viewindex==0"  style="position: absolute;  top:0px; left:0px;  width: 100vw; height: 100vh;">
+<app-tjoin *ngFor="let j of ws.Joins" [join]="j"></app-tjoin>
+
+<app-join-icons></app-join-icons>
+</div>
+
 <p-dialog [visible]="viewLogin" [modal]="true" [style]="{width: '600px', height: '50vh'}">
   <ng-template pTemplate="header">
     Database login

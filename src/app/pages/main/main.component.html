@@ -1,0 +1,92 @@
+<h1 class="main-title">Data flow</h1>
+
+<div class="row">
+  <p-card styleClass="p-card-shadow">
+    <ng-template pTemplate="header">
+      <h3 class="card-title">Data flow server</h3>
+    </ng-template>
+    <div class="card-container">
+      <label><b>Data flow server address</b></label>
+      {{ backend.ServerAddress }}
+    </div>
+    <ng-template pTemplate="footer">
+      <button
+        pButton
+        type="button"
+        label="Config"
+        (click)="ShowConfig = true"
+      ></button>
+    </ng-template>
+  </p-card>
+
+  <p-card [style]="{ width: '360px' }" styleClass="p-card-shadow">
+    <ng-template pTemplate="header">
+      <h3 class="card-title">DB Connections</h3>
+    </ng-template>
+    <div class="card-container">
+
+      <div *ngFor="let c of Connections">
+        {{c.Name}}
+      </div>
+
+    </div>
+    <ng-template pTemplate="footer">
+      <button pButton type="button" label="New" (click)="NewDBConnection()"></button>
+    </ng-template>
+  </p-card>
+
+  <p-card [style]="{ width: '360px' }" styleClass="p-card-shadow">
+    <ng-template pTemplate="header">
+      <h3 class="card-title">Queries</h3>
+    </ng-template>
+    <div class="card-container"></div>
+    <ng-template pTemplate="footer">
+      <button pButton type="button" label="New"></button>
+    </ng-template>
+  </p-card>
+
+  <p-card [style]="{ width: '360px' }" styleClass="p-card-shadow">
+    <ng-template pTemplate="header">
+      <h3 class="card-title">Exports</h3>
+    </ng-template>
+    <div class="card-container"></div>
+    <ng-template pTemplate="footer">
+      <button pButton type="button" label="New"></button>
+    </ng-template>
+  </p-card>
+
+  <p-card [style]="{ width: '360px' }" styleClass="p-card-shadow">
+    <ng-template pTemplate="header">
+      <h3 class="card-title">Import</h3>
+    </ng-template>
+    <div class="card-container"></div>
+    <ng-template pTemplate="footer">
+      <button pButton type="button" label="New"></button>
+    </ng-template>
+  </p-card>
+
+  <p-card [style]="{ width: '360px' }" styleClass="p-card-shadow">
+    <ng-template pTemplate="header">
+      <h3 class="card-title">Reports</h3>
+    </ng-template>
+    <div class="card-container"></div>
+    <ng-template pTemplate="footer">
+      <button pButton type="button" label="New"></button>
+    </ng-template>
+  </p-card>
+</div>
+
+<p-dialog [(visible)]="ShowConfig">
+  <ng-template pTemplate="header">
+    <h3>Data flow server config</h3>
+  </ng-template>
+
+  <app-server-config (onClose)="ShowConfig = false"></app-server-config>
+</p-dialog>
+
+<p-dialog [(visible)]="ShowConnection">
+  <ng-template pTemplate="header">
+    <h3>Data flow Database connection</h3>
+  </ng-template>
+  <app-dblogin (Login)="SaveDBConnection($event)"></app-dblogin>
+</p-dialog>

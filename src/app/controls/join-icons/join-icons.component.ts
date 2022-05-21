@@ -60,4 +60,8 @@ export class JoinIconsComponent implements OnInit {
     this.currjoin = j;
     op.show(e);
   }
+  DeleteJoin(e: any, join: any, op: any) {
+    this.ws.RemoveJoin(join);
+    op.hide(e);
+  }
 }

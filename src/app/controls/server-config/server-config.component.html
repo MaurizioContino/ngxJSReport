@@ -1,0 +1,15 @@
+
+<p-card [style]="{width: '360px'}" styleClass="p-card-shadow">
+
+  <h4>Server address</h4>
+  <input type="text" pInputText title="addrs" id="serveraddrs" [(ngModel)]="addrs">
+
+  <ng-template pTemplate="footer">
+      <p-button label="Save" icon="pi pi-check" (click)="save()"></p-button>
+      <p-button label="Cancel" icon="pi pi-times" styleClass="p-button-secondary" [style]="{'margin-left': '.5em'}" (click)="cancel()"></p-button>
+  </ng-template>
+</p-card>
+
+
+
+

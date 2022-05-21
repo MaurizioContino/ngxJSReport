@@ -8,6 +8,7 @@ import { JoinModel } from '../models/JoinModel';
 import { QueryModel } from '../models/QueryModel';
 import { ReportModel } from '../models/ReportModel';
 import { TableModel } from '../models/TableModel';
+import { ServerConfigService } from './server-config.service';
 
 
 @Injectable({
@@ -62,7 +63,7 @@ export class WorkspaceService {
   public Distinct = false;
   sessionId: string = "";
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private backend: ServerConfigService) {
 
    }
 

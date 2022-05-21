@@ -41,6 +41,8 @@ import { DataImportComponent } from './controls/data-import/data-import.componen
 import { DBLoginComponent } from './controls/dblogin/dblogin.component';
 import {CardModule} from 'primeng/card';
 import {PasswordModule} from 'primeng/password';
+import { MainComponent } from './pages/main/main.component';
+import { ServerConfigComponent } from './controls/server-config/server-config.component';
 
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
@@ -63,7 +65,9 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     ParametersComponent,
     DataExportComponent,
     DataImportComponent,
-    DBLoginComponent
+    DBLoginComponent,
+    MainComponent,
+    ServerConfigComponent
   ],
   imports: [
     BrowserModule,

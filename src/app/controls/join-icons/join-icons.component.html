@@ -21,8 +21,12 @@
 
 <p-overlayPanel #op [style]="{'width': '300px'}">
   <ng-template pTemplate>
+<div style="display: flex; flex-direction: row;justify-items: stretch;">
+  <h3>Join type</h3>
+  <span style="flex: 1 0 auto;"></span>
+  <fa-icon [icon]="['fas', 'trash']" style="color: red;" (click)="DeleteJoin($event, currjoin, op)" ></fa-icon>
+</div>
 
-    <h3>Join type</h3>
     <div class="field-radiobutton" style="margin-bottom:5px">
       <p-radioButton name="JoinType" value="0" [(ngModel)]="currjoin!.JoinType" inputId="inner" ></p-radioButton>
       <label style="margin-left:10px" for="inner">Inner</label>
